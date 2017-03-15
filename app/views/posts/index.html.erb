@@ -1,13 +1,6 @@
 <h1>Post index</h1>
 
 
-<%= @user %>
-
-<br><br>
-
-<%= session[:user] %>
-this is the id <%= @id %>
-<br><br>
 
 <form action="/posts/create" method="post">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
