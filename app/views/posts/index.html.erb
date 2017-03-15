@@ -1,0 +1,56 @@
+<h1>Post index</h1>
+
+
+<%= @user %>
+
+<br><br>
+
+<%= session[:user] %>
+this is the id <%= @id %>
+<br><br>
+
+<form action="/posts/create" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="user" value="@user">
+  <input type="text" name="title"> Add Title <br>
+  <textarea name="content" rows="8" cols="18"></textarea> Enter Content
+  <br><br><input type="submit" value="add post">
+</form>
+
+
+
+  <% @posts.each do |post| %>
+  <div style="outline:1px solid black; padding: 12px;">
+
+    <p>
+      <b>Title:</b> <%= post.title %>
+      <% @users.each do |user| %>
+      <% if user.id == post.user_id %>
+      Posted by:<%= user.name %>
+      <%end%>
+      <%end%>
+
+    </p>
+    <p>
+      <span style="margin-left: 20px;">
+      <%= post.content %>
+    </span>
+  </p>
+  <b><p>comments:</p></b>
+  <% @comments.each do |comment| %>
+  <% if post.id == comment.post_id %>
+  <div style="outline:1px solid gray; padding: 12px;">
+    <%= comment.message %>
+  </div>
+      <% end %>
+    <% end %>
+
+  <br>
+  <form action="/posts/<%=post.id%>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="text" name="message"> add message <br>
+    <br><input type="submit">
+  </form>
+
+</div>
+<% end %>
