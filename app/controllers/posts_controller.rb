@@ -11,14 +11,20 @@ class PostsController < ApplicationController
     @posts = Post.all
     @comments = Comment.all
     @users = User.all
+
+    #if !(session[:id])
+    #  redirect_to 'users/login'
+    #end
   end
 
   def message
     @post = Post.find(params[:id])
-    Comment.create(message: params[:message], post:@post, user:@user)
+    Comment.create(message: params[:message], post:@post, user:User.find(session[:id]))
     redirect_to "/posts/index"
   end
 
   def destroy
+    Post.find(params[:id]).destroy
+    redirect_to '/posts/index'
   end
 end

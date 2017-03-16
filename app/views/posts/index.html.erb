@@ -1,41 +1,50 @@
 <h1>Post index</h1>
 
-
-
+<a href="/users/logout"><button>logout</button></a>
+<br><br>
 <form action="/posts/create" method="post">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <input type="hidden" name="user" value="@user">
   <input type="text" name="title"> Add Title <br>
   <textarea name="content" rows="8" cols="18"></textarea> Enter Content
   <br><br><input type="submit" value="add post">
+  <br><br>
 </form>
-
-
-
   <% @posts.each do |post| %>
   <div style="outline:1px solid black; padding: 12px;">
 
     <p>
       <b>Title:</b> <%= post.title %>
-      <% @users.each do |user| %>
-      <% if user.id == post.user_id %>
-      Posted by:<%= user.name %>
-      <%end%>
-      <%end%>
 
+      <% @users.each do |user| %>
+        <% if user.id == post.user_id %>
+            <span style="margin-left: 350px;">Posted by:<%= user.name %></span>
+        <%end%>
+      <%end%>
     </p>
+
     <p>
       <span style="margin-left: 20px;">
       <%= post.content %>
-    </span>
-  </p>
+      </span>
+    </p>
+
   <b><p>comments:</p></b>
-  <% @comments.each do |comment| %>
-  <% if post.id == comment.post_id %>
-  <div style="outline:1px solid gray; padding: 12px;">
-    <%= comment.message %>
-  </div>
-      <% end %>
+    <% @comments.each do |comment| %>
+      <% if post.id == comment.post_id %>
+        <div style="outline:1px solid gray; padding: 12px;">
+          <table>
+            <tr>
+              <td style="width: 250px;"><%= comment.message %></td>
+              <% @users.each do |user| %>
+                <% if comment.user_id == user.id %>
+                  <td><i>Posted by:<%= user.name %></i></td>
+                <%end%>
+              <%end%>
+            </tr>
+          </table>
+        </div>
+    <% end %>
     <% end %>
 
   <br>
@@ -45,5 +54,33 @@
     <br><input type="submit">
   </form>
 
+  <form action="/posts/<%=post.id%>" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="hidden" name="authenticity_token" value="form_authenticity_token">
+    <input type="submit" value="Delete this post">
+  </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
+
 <% end %>

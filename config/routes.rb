@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   get 'posts/index'
 
-  get 'posts/destroy'
+  delete 'posts/:id' => 'posts#destroy'
+
+  get 'users/logout' => 'users#logout'
 
   get 'users/login'
 
